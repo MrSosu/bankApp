@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/bankapp
+    username: root
+    password: Trucebaldanzi35
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: create-drop
+      show-sql: true
+
+# create ---> crea il database di nuovo anche se già presente, database che persiste alla chiusura dell'applicazione
+# create-drop ---> come il create, ma il database non persiste e viene distrutto alla chiusura dell'app
+# drop ---> alla chiusura dell'applicazione distrugge il database
+# update ---> il database persiste e vengono aggiornate solo le informazioni nuove ad ogni avvio
+# validate ---> confronta il database con le definizioni delle classi e se c'è qualche differenza lancia un'eccezione
+# none ---> nessuna modifica al database viene effettuata
