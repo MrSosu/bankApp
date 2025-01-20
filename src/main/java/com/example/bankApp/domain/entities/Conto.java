@@ -2,6 +2,7 @@ package com.example.bankApp.domain.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,8 +14,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Check;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Getter
@@ -24,6 +31,7 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "conto")
+@EntityListeners(AuditingEntityListener.class)
 public class Conto {
 
     @Id
@@ -38,5 +46,17 @@ public class Conto {
     private LocalDate dataSottoscrizione;
     @ManyToMany(mappedBy = "conti")
     private Set<Utente> intestatari;
+    @CreatedDate
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+    @CreatedBy
+    @Column(name = "created_by")
+    private Long createdBy;
+    @LastModifiedDate
+    @Column(name = "last_modified_at")
+    private LocalDateTime lastModifiedAt;
+    @LastModifiedBy
+    @Column(name = "last_modified_by")
+    private Long lastModifiedBy;
 
 }

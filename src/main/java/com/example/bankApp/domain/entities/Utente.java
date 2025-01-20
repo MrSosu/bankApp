@@ -67,13 +67,13 @@ public class Utente {
     private LocalDateTime createdAt;
     @CreatedBy
     @Column(name = "created_by")
-    private Utente createdBy;
+    private Long createdBy;
     @LastModifiedDate
     @Column(name = "last_modified_at")
     private LocalDateTime lastModifiedAt;
     @LastModifiedBy
     @Column(name = "last_modified_by")
-    private Utente lastModifiedBy;
+    private Long lastModifiedBy;
 
 
 }
