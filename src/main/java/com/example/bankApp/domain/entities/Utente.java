@@ -2,9 +2,13 @@ package com.example.bankApp.domain.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -12,8 +16,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -22,6 +33,7 @@ import java.time.LocalDate;
 @Builder
 @Entity
 @Table(name = "utente")
+@EntityListeners(AuditingEntityListener.class)
 public class Utente {
 
     @Id
@@ -43,5 +55,25 @@ public class Utente {
     private String telefono;
     @ManyToOne(optional = false)
     private Comune comune;
+    @ManyToMany
+    @JoinTable(
+            name = "conti_utenti",
+            joinColumns = @JoinColumn(name = "utente_id"),
+            inverseJoinColumns = @JoinColumn(name = "conto_id")
+    )
+    private Set<Conto> conti;
+    @CreatedDate
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+    @CreatedBy
+    @Column(name = "created_by")
+    private Utente createdBy;
+    @LastModifiedDate
+    @Column(name = "last_modified_at")
+    private LocalDateTime lastModifiedAt;
+    @LastModifiedBy
+    @Column(name = "last_modified_by")
+    private Utente lastModifiedBy;
+
 
 }
