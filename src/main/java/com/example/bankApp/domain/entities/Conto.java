@@ -6,6 +6,8 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -22,6 +24,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -44,8 +47,13 @@ public class Conto {
     private Double saldo;
     @Column(nullable = false, name = "data_sottoscrizione")
     private LocalDate dataSottoscrizione;
-    @ManyToMany(mappedBy = "conti")
-    private Set<Utente> intestatari;
+    @ManyToMany
+    @JoinTable(
+            name = "conti_utenti",
+            joinColumns = @JoinColumn(name = "conto_id"),
+            inverseJoinColumns = @JoinColumn(name = "utente_id")
+    )
+    private Set<Utente> intestatari = new HashSet<>();
     @CreatedDate
     @Column(name = "created_at")
     private LocalDateTime createdAt;

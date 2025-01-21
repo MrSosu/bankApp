@@ -55,12 +55,7 @@ public class Utente {
     private String telefono;
     @ManyToOne(optional = false)
     private Comune comune;
-    @ManyToMany
-    @JoinTable(
-            name = "conti_utenti",
-            joinColumns = @JoinColumn(name = "utente_id"),
-            inverseJoinColumns = @JoinColumn(name = "conto_id")
-    )
+    @ManyToMany(mappedBy = "intestatari")
     private Set<Conto> conti;
     @CreatedDate
     @Column(name = "created_at")
