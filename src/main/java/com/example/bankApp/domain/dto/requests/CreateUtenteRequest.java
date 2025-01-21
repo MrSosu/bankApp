@@ -17,11 +17,11 @@ public record CreateUtenteRequest(
         @Email(message = "Email non valida")
         String email,
         @Pattern(
-                regexp = "^\\+?[0-9]{1,3}?[-.\\s]?[0-9]{1,4}[-.\\s]?[0-9]{1,4}[-.\\s]?[0-9]{1,9}$\n",
+                regexp = "^\\+?[0-9]+$",
                 message = "Telefono non valido")
         String telefono,
         @Pattern(
-                regexp = "^[A-Z]{6}[0-9]{2}[A-EHLMPR-T][0-9]{2}[A-Z][0-9]{3}[A-Z]$\n",
+                regexp = "^[A-Z]{6}[0-9]{2}[A-EHLMPR-T][0-9]{2}[A-Z][0-9]{3}[A-Z]$",
                 message = "Codice fiscale non valido")
         String codiceFiscale,
         @NotBlank(message = "L'indirizzo non può essere null o blank")
@@ -29,6 +29,6 @@ public record CreateUtenteRequest(
         @Past(message = "La data di nascita deve essere nel passato")
         LocalDate dataNascita,
         @NotNull(message = "il comune deve essere presente")
-        Comune comune
+        EntityIdRequest comune_id
 ) {
 }

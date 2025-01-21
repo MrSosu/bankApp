@@ -2,6 +2,7 @@ package com.example.bankApp.domain.dto.requests;
 
 import com.example.bankApp.domain.entities.Comune;
 import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 
@@ -19,6 +20,6 @@ public record UpdateUtenteRequest(
         @Nullable
         @Past(message = "La data di nascita non può essere nel passato")
         LocalDate dataNascita,
-        Comune comune
+        EntityIdRequest comune_id
 ) {
 }

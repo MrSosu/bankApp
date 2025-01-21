@@ -5,8 +5,9 @@ import com.example.bankApp.domain.dto.requests.UpdateUtenteRequest;
 import com.example.bankApp.domain.dto.responses.EntityIdResponse;
 import com.example.bankApp.domain.dto.responses.GenericResponse;
 import com.example.bankApp.domain.entities.Utente;
-import com.example.bankApp.domain.exceptions.UtenteNotFoundException;
+import com.example.bankApp.domain.exceptions.EntityNotFoundException;
 import com.example.bankApp.services.UtenteService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class UtenteController {
     private UtenteService utenteService;
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<Utente> getById(@PathVariable Long id) throws UtenteNotFoundException {
+    public ResponseEntity<Utente> getById(@PathVariable Long id) throws EntityNotFoundException {
         return new ResponseEntity<>(utenteService.getById(id), HttpStatus.OK);
     }
 
@@ -39,12 +40,12 @@ public class UtenteController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<EntityIdResponse> create(@RequestBody CreateUtenteRequest request) {
+    public ResponseEntity<EntityIdResponse> create(@RequestBody @Valid CreateUtenteRequest request) throws EntityNotFoundException {
         return new ResponseEntity<>(utenteService.createUtente(request), HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<EntityIdResponse> update(@PathVariable Long id, @RequestBody UpdateUtenteRequest request) throws UtenteNotFoundException {
+    public ResponseEntity<EntityIdResponse> update(@PathVariable Long id, @RequestBody @Valid UpdateUtenteRequest request) throws EntityNotFoundException {
         return new ResponseEntity<>(utenteService.updateUtente(id, request), HttpStatus.CREATED);
     }
 
