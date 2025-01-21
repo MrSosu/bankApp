@@ -4,6 +4,7 @@ import com.example.bankApp.domain.dto.requests.CreateUtenteRequest;
 import com.example.bankApp.domain.dto.requests.UpdateUtenteRequest;
 import com.example.bankApp.domain.dto.responses.EntityIdResponse;
 import com.example.bankApp.domain.dto.responses.GenericResponse;
+import com.example.bankApp.domain.dto.responses.UtenteProfiloResponse;
 import com.example.bankApp.domain.entities.Utente;
 import com.example.bankApp.domain.exceptions.EntityNotFoundException;
 import com.example.bankApp.services.UtenteService;
@@ -32,6 +33,11 @@ public class UtenteController {
     @GetMapping("/get/{id}")
     public ResponseEntity<Utente> getById(@PathVariable Long id) throws EntityNotFoundException {
         return new ResponseEntity<>(utenteService.getById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/profile/{id}")
+    public ResponseEntity<UtenteProfiloResponse> getProfilo(@PathVariable Long id) throws EntityNotFoundException {
+        return new ResponseEntity<>(utenteService.getProfilo(id), HttpStatus.OK);
     }
 
     @GetMapping("/all")

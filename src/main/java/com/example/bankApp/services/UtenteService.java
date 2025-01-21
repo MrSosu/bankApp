@@ -3,6 +3,7 @@ package com.example.bankApp.services;
 import com.example.bankApp.domain.dto.requests.CreateUtenteRequest;
 import com.example.bankApp.domain.dto.requests.UpdateUtenteRequest;
 import com.example.bankApp.domain.dto.responses.EntityIdResponse;
+import com.example.bankApp.domain.dto.responses.UtenteProfiloResponse;
 import com.example.bankApp.domain.entities.Utente;
 import com.example.bankApp.domain.exceptions.EntityNotFoundException;
 import com.example.bankApp.mappers.UtenteMapper;
@@ -53,4 +54,8 @@ public class UtenteService {
         utenteRepository.deleteById(id);
     }
 
+    public UtenteProfiloResponse getProfilo(Long id) throws EntityNotFoundException {
+        Utente utente = getById(id);
+        return utenteMapper.fromUtenteToProfilo(utente);
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.bankApp.mappers;
 
 import com.example.bankApp.domain.dto.requests.CreateUtenteRequest;
+import com.example.bankApp.domain.dto.responses.UtenteProfiloResponse;
 import com.example.bankApp.domain.entities.Utente;
 import com.example.bankApp.domain.exceptions.EntityNotFoundException;
 import com.example.bankApp.services.ComuneService;
@@ -27,4 +28,16 @@ public class UtenteMapper {
                 .build();
     }
 
+    public UtenteProfiloResponse fromUtenteToProfilo(Utente utente) {
+        return UtenteProfiloResponse.builder()
+                .nome(utente.getNome())
+                .cognome(utente.getCognome())
+                .dataNascita(utente.getDataNascita())
+                .indirizzo(utente.getIndirizzo())
+                .codiceFiscale(utente.getCodiceFiscale())
+                .email(utente.getEmail())
+                .telefono(utente.getTelefono())
+                .comune(utente.getComune().getNome())
+                .build();
+    }
 }
