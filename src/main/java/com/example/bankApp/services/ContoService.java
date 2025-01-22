@@ -1,6 +1,7 @@
 package com.example.bankApp.services;
 
 import com.example.bankApp.domain.dto.requests.CreateContoRequest;
+import com.example.bankApp.domain.dto.responses.ContoResponse;
 import com.example.bankApp.domain.dto.responses.EntityIdResponse;
 import com.example.bankApp.domain.entities.Conto;
 import com.example.bankApp.domain.exceptions.MyEntityNotFoundException;
@@ -8,6 +9,8 @@ import com.example.bankApp.mappers.ContoMapper;
 import com.example.bankApp.repositories.ContoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ContoService {
@@ -18,9 +21,20 @@ public class ContoService {
     private ContoMapper contoMapper;
 
     public Conto getById(Long id) throws MyEntityNotFoundException {
-        return contoRepository
+        return contoRepository.findById(id).orElseThrow(() -> new MyEntityNotFoundException("il conto con id " + id + " non esiste!"));
+    }
+
+    public ContoResponse getByIdWithResponse(Long id) throws MyEntityNotFoundException {
+        return contoMapper.toContoResponse(contoRepository
                 .findById(id)
-                .orElseThrow(() -> new MyEntityNotFoundException("il conto con id " + id + " non esiste!"));
+                .orElseThrow(() -> new MyEntityNotFoundException("il conto con id " + id + " non esiste!")));
+    }
+
+    public List<ContoResponse> getAll() {
+        return contoRepository.findAll()
+                .stream()
+                .map(contoMapper::toContoResponse)
+                .toList();
     }
 
     public EntityIdResponse create(CreateContoRequest request) {
@@ -31,10 +45,10 @@ public class ContoService {
                 .build();
     }
 
-    public Conto updateSaldo(Long id, Double newSaldo) throws MyEntityNotFoundException {
+    public ContoResponse updateSaldo(Long id, Double newSaldo) throws MyEntityNotFoundException {
         Conto conto = getById(id);
         conto.setSaldo(newSaldo);
-        return contoRepository.save(conto);
+        return contoMapper.toContoResponse(contoRepository.save(conto));
     }
 
 }

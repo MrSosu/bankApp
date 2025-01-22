@@ -33,6 +33,15 @@ public class GlobalExceptionHandler {
                         .build());
     }
 
-
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handle(IllegalArgumentException exception) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ErrorResponse
+                        .builder()
+                        .exception(IllegalTransactionException.class.getSimpleName())
+                        .message(exception.getMessage())
+                        .build());
+    }
 
 }

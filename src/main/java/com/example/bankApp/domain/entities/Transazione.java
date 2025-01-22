@@ -1,8 +1,11 @@
 package com.example.bankApp.domain.entities;
 
+import com.example.bankApp.domain.enums.TipoOperazione;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -41,7 +44,7 @@ public class Transazione {
     private Double amount;
     @Column(nullable = false)
     private LocalDateTime timestamp;
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name = "conto_mittente")
     private Conto contoMittente;
     @ManyToOne(optional = false)
@@ -50,6 +53,9 @@ public class Transazione {
     @ManyToOne(optional = false)
     @JoinColumn(name = "utente_id")
     private Utente utente;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TipoOperazione tipoOperazione;
     @CreatedDate
     @Column(name = "created_at")
     private LocalDateTime createdAt;
