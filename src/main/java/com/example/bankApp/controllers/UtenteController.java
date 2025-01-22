@@ -6,7 +6,7 @@ import com.example.bankApp.domain.dto.responses.EntityIdResponse;
 import com.example.bankApp.domain.dto.responses.GenericResponse;
 import com.example.bankApp.domain.dto.responses.UtenteProfiloResponse;
 import com.example.bankApp.domain.entities.Utente;
-import com.example.bankApp.domain.exceptions.EntityNotFoundException;
+import com.example.bankApp.domain.exceptions.MyEntityNotFoundException;
 import com.example.bankApp.services.UtenteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +31,12 @@ public class UtenteController {
     private UtenteService utenteService;
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<Utente> getById(@PathVariable Long id) throws EntityNotFoundException {
+    public ResponseEntity<Utente> getById(@PathVariable Long id) throws MyEntityNotFoundException {
         return new ResponseEntity<>(utenteService.getById(id), HttpStatus.OK);
     }
 
     @GetMapping("/profile/{id}")
-    public ResponseEntity<UtenteProfiloResponse> getProfilo(@PathVariable Long id) throws EntityNotFoundException {
+    public ResponseEntity<UtenteProfiloResponse> getProfilo(@PathVariable Long id) throws MyEntityNotFoundException {
         return new ResponseEntity<>(utenteService.getProfilo(id), HttpStatus.OK);
     }
 
@@ -46,12 +46,12 @@ public class UtenteController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<EntityIdResponse> create(@RequestBody @Valid CreateUtenteRequest request) throws EntityNotFoundException {
+    public ResponseEntity<EntityIdResponse> create(@RequestBody @Valid CreateUtenteRequest request) throws MyEntityNotFoundException {
         return new ResponseEntity<>(utenteService.createUtente(request), HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<EntityIdResponse> update(@PathVariable Long id, @RequestBody @Valid UpdateUtenteRequest request) throws EntityNotFoundException {
+    public ResponseEntity<EntityIdResponse> update(@PathVariable Long id, @RequestBody @Valid UpdateUtenteRequest request) throws MyEntityNotFoundException {
         return new ResponseEntity<>(utenteService.updateUtente(id, request), HttpStatus.CREATED);
     }
 

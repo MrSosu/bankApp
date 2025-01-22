@@ -2,7 +2,7 @@ package com.example.bankApp.mappers;
 
 import com.example.bankApp.domain.dto.requests.CreateContoRequest;
 import com.example.bankApp.domain.entities.Conto;
-import com.example.bankApp.domain.exceptions.EntityNotFoundException;
+import com.example.bankApp.domain.exceptions.MyEntityNotFoundException;
 import com.example.bankApp.services.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ public class ContoMapper {
                 .intestatari(request.intestatari_id().stream().map(id -> {
                     try {
                         return utenteService.getById(id);
-                    } catch (EntityNotFoundException e) {
+                    } catch (MyEntityNotFoundException e) {
                         throw new RuntimeException(e);
                     }
                 }).collect(Collectors.toSet()))

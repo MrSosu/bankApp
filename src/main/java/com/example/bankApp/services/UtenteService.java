@@ -5,7 +5,7 @@ import com.example.bankApp.domain.dto.requests.UpdateUtenteRequest;
 import com.example.bankApp.domain.dto.responses.EntityIdResponse;
 import com.example.bankApp.domain.dto.responses.UtenteProfiloResponse;
 import com.example.bankApp.domain.entities.Utente;
-import com.example.bankApp.domain.exceptions.EntityNotFoundException;
+import com.example.bankApp.domain.exceptions.MyEntityNotFoundException;
 import com.example.bankApp.mappers.UtenteMapper;
 import com.example.bankApp.repositories.UtenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,22 +23,22 @@ public class UtenteService {
     @Autowired
     private ComuneService comuneService;
 
-    public Utente getById(Long id) throws EntityNotFoundException {
+    public Utente getById(Long id) throws MyEntityNotFoundException {
         return utenteRepository
                 .findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("utente con id " + id + " non trovato"));
+                .orElseThrow(() -> new MyEntityNotFoundException("utente con id " + id + " non trovato"));
     }
 
     public List<Utente> getAll() {
         return utenteRepository.findAll();
     }
 
-    public EntityIdResponse createUtente(CreateUtenteRequest request) throws EntityNotFoundException {
+    public EntityIdResponse createUtente(CreateUtenteRequest request) throws MyEntityNotFoundException {
         Utente utenteSaved = utenteRepository.save(utenteMapper.fromCreateUtenteRequest(request));
         return new EntityIdResponse(utenteSaved.getId());
     }
 
-    public EntityIdResponse updateUtente(Long id, UpdateUtenteRequest request) throws EntityNotFoundException {
+    public EntityIdResponse updateUtente(Long id, UpdateUtenteRequest request) throws MyEntityNotFoundException {
         Utente myUtente = getById(id);
         if (request.nome() != null) myUtente.setNome(request.nome());
         if (request.cognome()!= null) myUtente.setCognome(request.cognome());
@@ -54,7 +54,7 @@ public class UtenteService {
         utenteRepository.deleteById(id);
     }
 
-    public UtenteProfiloResponse getProfilo(Long id) throws EntityNotFoundException {
+    public UtenteProfiloResponse getProfilo(Long id) throws MyEntityNotFoundException {
         Utente utente = getById(id);
         return utenteMapper.fromUtenteToProfilo(utente);
     }
