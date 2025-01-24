@@ -29,6 +29,12 @@ public class UtenteService {
                 .orElseThrow(() -> new MyEntityNotFoundException("utente con id " + id + " non trovato"));
     }
 
+    public Utente getByEmail(String email) throws MyEntityNotFoundException {
+        return utenteRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new MyEntityNotFoundException("utente con email " + email + " non trovato"));
+    }
+
     public List<Utente> getAll() {
         return utenteRepository.findAll();
     }
@@ -36,6 +42,10 @@ public class UtenteService {
     public EntityIdResponse createUtente(CreateUtenteRequest request) throws MyEntityNotFoundException {
         Utente utenteSaved = utenteRepository.save(utenteMapper.fromCreateUtenteRequest(request));
         return new EntityIdResponse(utenteSaved.getId());
+    }
+
+    public void insertUtente(Utente utente) {
+        utenteRepository.save(utente);
     }
 
     public EntityIdResponse updateUtente(Long id, UpdateUtenteRequest request) throws MyEntityNotFoundException {

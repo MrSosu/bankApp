@@ -11,6 +11,9 @@ spring:
       ddl-auto: update
       show-sql: true
 
+jwt:
+  secret: "/kWNpUl4b5voey1r9fFKM7gAwXZt0XSMw7M95ekxb1OeXLTncZFIj9hPqNkP5lmf84CEF9jh8OQ4ZUNqwB1vqw=="
+
 # create ---> crea il database di nuovo anche se gi� presente, database che persiste alla chiusura dell'applicazione
 # create-drop ---> come il create, ma il database non persiste e viene distrutto alla chiusura dell'app
 # drop ---> alla chiusura dell'applicazione distrugge il database

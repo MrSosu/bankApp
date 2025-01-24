@@ -19,9 +19,13 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -32,7 +36,7 @@ import java.util.Set;
 @Entity
 @Table(name = "utente")
 @EntityListeners(AuditingEntityListener.class)
-public class Utente {
+public class Utente implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,10 +53,14 @@ public class Utente {
     private String codiceFiscale;
     @Column(nullable = false, unique = true)
     private String email;
+    @Column(nullable = false)
+    private String password;
     @Column(nullable = false, unique = true)
     private String telefono;
     @ManyToOne(optional = false)
     private Comune comune;
+    @Column(name = "registration_token")
+    private String registrationToken;
     @ManyToMany(mappedBy = "intestatari")
     private Set<Conto> conti;
     @CreatedDate
@@ -67,6 +75,17 @@ public class Utente {
     @LastModifiedBy
     @Column(name = "last_modified_by")
     private Long lastModifiedBy;
+    @Column(name = "last_login")
+    private LocalDateTime lastLogin;
 
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
 }
