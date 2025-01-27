@@ -38,6 +38,7 @@ public class AuthenticationService {
                 .telefono(request.telefono())
                 .codiceFiscale(request.codiceFiscale())
                 .dataNascita(request.dataNascita())
+                .indirizzo(request.indirizzo())
                 .comune(comuneService.getById(request.comune_id().id()))
                 .build();
         String jwtToken = jwtService.generateToken(utente);
