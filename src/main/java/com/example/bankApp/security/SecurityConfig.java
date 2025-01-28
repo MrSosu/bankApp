@@ -25,7 +25,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // definisco i miei endpoints pubblici
         List<String> publicEndpoints = List.of(
-            "/app/v1/auth/**"
+            "/app/v1/auth/register",
+            "/app/v1/auth/login"
         );
         // passo la lista al jwtAuthFilter
         jwtAuthFilter.setPublicEndpoints(publicEndpoints);

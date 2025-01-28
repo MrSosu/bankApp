@@ -3,8 +3,10 @@ package com.example.bankApp.security;
 import com.example.bankApp.domain.dto.requests.AuthRequest;
 import com.example.bankApp.domain.dto.requests.RegisterRequest;
 import com.example.bankApp.domain.dto.responses.AuthenticationResponse;
+import com.example.bankApp.domain.dto.responses.GenericResponse;
 import com.example.bankApp.domain.entities.Utente;
 import com.example.bankApp.services.ComuneService;
+import com.example.bankApp.services.TokenBlackListService;
 import com.example.bankApp.services.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +29,8 @@ public class AuthenticationService {
     private JwtService jwtService;
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private TokenBlackListService tokenBlackListService;
 
     public AuthenticationResponse register(RegisterRequest request) {
         Utente utente = Utente
@@ -58,5 +62,10 @@ public class AuthenticationService {
         utente.setLastLogin(LocalDateTime.now());
         utenteService.insertUtente(utente);
         return AuthenticationResponse.builder().token(token).build();
+    }
+
+    public GenericResponse logout(Long idUtente, String token) {
+        tokenBlackListService.insertToken(idUtente,token);
+        return GenericResponse.builder().message("Logout effettuato con successo").build();
     }
 }

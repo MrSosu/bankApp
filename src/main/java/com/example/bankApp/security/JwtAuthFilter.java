@@ -1,6 +1,7 @@
 package com.example.bankApp.security;
 
 import com.example.bankApp.domain.dto.responses.ErrorResponse;
+import com.example.bankApp.services.TokenBlackListService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
@@ -29,6 +30,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private JwtService jwtService;
     @Autowired
     private UserDetailsService userDetailsService;
+    @Autowired
+    private TokenBlackListService tokenBlackListService;
     @Setter
     private List<String> publicEndpoints;
 
@@ -53,7 +56,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             sendAuthErrorResponse(response, "MalformedTokenException", "Token JWT mancante o malformato");
             return;
         }
+        // verifico se il token non sia nella blacklist
         jwt = authHeader.substring(7);
+        System.out.println("il mio cazzo di token è: " + jwt);
+        if (tokenBlackListService.isPresentToken(jwt)) {
+            sendAuthErrorResponse(response, "TokenExpiredException",
+                    "Token nella blacklist, non è più valido!");
+        }
         email = jwtService.extractUsername(jwt);
         // se il login è corretto inserisco il token nel contesto di sicurezza dell'applicazione
         // quindi in sostanza da quel momento il token sarà valido per l'autenticazione
