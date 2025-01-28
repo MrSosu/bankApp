@@ -14,6 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -24,7 +25,7 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 @Table(name = "token_bl")
-@EntityListeners(TokenBlackList.class)
+@EntityListeners(AuditingEntityListener.class)
 public class TokenBlackList {
 
     @Id
