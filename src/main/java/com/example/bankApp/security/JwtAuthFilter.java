@@ -76,6 +76,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 );
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+                // Blocco specifico per il ruolo ROLE_TOCONFIRM
+                if (userDetails.getAuthorities().stream()
+                        .anyMatch(auth -> auth.getAuthority().equals("TOCONFIRM"))) {
+                    sendAuthErrorResponse(response, "AccessDeniedException", "Devi confermare l'account!");
+                    return;
+                }
             }
         } catch (MalformedJwtException e) {
             sendAuthErrorResponse(response, "MalformedTokenException", "Token JWT mancante o malformato");

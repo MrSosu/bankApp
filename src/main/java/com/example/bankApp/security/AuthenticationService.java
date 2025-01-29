@@ -5,6 +5,7 @@ import com.example.bankApp.domain.dto.requests.RegisterRequest;
 import com.example.bankApp.domain.dto.responses.AuthenticationResponse;
 import com.example.bankApp.domain.dto.responses.GenericResponse;
 import com.example.bankApp.domain.entities.Utente;
+import com.example.bankApp.domain.enums.Role;
 import com.example.bankApp.services.ComuneService;
 import com.example.bankApp.services.TokenBlackListService;
 import com.example.bankApp.services.UtenteService;
@@ -43,6 +44,7 @@ public class AuthenticationService {
                 .codiceFiscale(request.codiceFiscale())
                 .dataNascita(request.dataNascita())
                 .indirizzo(request.indirizzo())
+                .role(Role.TOCONFIRM)
                 .comune(comuneService.getById(request.comune_id().id()))
                 .build();
         String jwtToken = jwtService.generateToken(utente);

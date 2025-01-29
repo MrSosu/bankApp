@@ -3,6 +3,8 @@ package com.example.bankApp.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -33,15 +35,21 @@ public class SecurityConfig {
         // creo la catena di filtri
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req
-                        .requestMatchers(publicEndpoints.toArray(new String[0])) // per gli endpoint pubblici
-                        .permitAll() // permetti sempre l'accesso
-                        .anyRequest() // per ogni altra richiesta
-                        .authenticated() // richiedi l'autenticazione
+                        .requestMatchers(publicEndpoints.toArray(new String[0]))
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated()
                 )
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterAfter(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
+    @Bean
+    static RoleHierarchy roleHierarchy() {
+        var hierarchy = new RoleHierarchyImpl();
+        hierarchy.setHierarchy("ROLE_ADMIN > ROLE_UTENTE > ROLE_TOCONFIRM");
+        return hierarchy;
+    }
 
 }

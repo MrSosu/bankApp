@@ -1,8 +1,11 @@
 package com.example.bankApp.domain.entities;
 
+import com.example.bankApp.domain.enums.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,6 +23,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
@@ -61,6 +65,9 @@ public class Utente implements UserDetails {
     private Comune comune;
     @Column(name = "registration_token")
     private String registrationToken;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
     @ManyToMany(mappedBy = "intestatari")
     private Set<Conto> conti;
     @CreatedDate
@@ -81,7 +88,7 @@ public class Utente implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
