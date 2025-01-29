@@ -35,6 +35,12 @@ public class UtenteService {
                 .orElseThrow(() -> new MyEntityNotFoundException("utente con email " + email + " non trovato"));
     }
 
+    public Utente getByRegistrationToken(String token) {
+        return utenteRepository
+                .findByRegistrationToken(token)
+                .orElseThrow(() -> new MyEntityNotFoundException("utente con token " + token + " non trovato"));
+    }
+
     public List<Utente> getAll() {
         return utenteRepository.findAll();
     }

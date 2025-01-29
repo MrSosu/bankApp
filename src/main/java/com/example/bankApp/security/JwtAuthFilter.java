@@ -58,7 +58,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
         // verifico se il token non sia nella blacklist
         jwt = authHeader.substring(7);
-        System.out.println("il mio cazzo di token è: " + jwt);
         if (tokenBlackListService.isPresentToken(jwt)) {
             sendAuthErrorResponse(response, "TokenExpiredException",
                     "Token nella blacklist, non è più valido!");

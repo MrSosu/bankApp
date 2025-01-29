@@ -28,7 +28,10 @@ public class SecurityConfig {
         // definisco i miei endpoints pubblici
         List<String> publicEndpoints = List.of(
             "/app/v1/auth/register",
-            "/app/v1/auth/login"
+            "/app/v1/auth/login",
+            "/app/v1/auth/confirm",
+            "/swagger-ui**",
+            "/v3/api-docs**"
         );
         // passo la lista al jwtAuthFilter
         jwtAuthFilter.setPublicEndpoints(publicEndpoints);
