@@ -45,6 +45,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String email = null;
         final String requestURI = request.getRequestURI();
 
+        // Escludi gli endpoint Swagger e API Docs
+        if (requestURI.startsWith("/v3/api-docs") || requestURI.startsWith("/swagger-ui")) {
+            filterChain.doFilter(request, response); // Salta il filtro JWT
+            return;
+        }
         // se l'endpoint è libero salta il filtro e lascia entrare
         if (isPublicUrl(requestURI)) {
             filterChain.doFilter(request,response); // ---> vai al filtro successivo

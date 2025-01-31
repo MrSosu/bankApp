@@ -30,8 +30,9 @@ public class SecurityConfig {
             "/app/v1/auth/register",
             "/app/v1/auth/login",
             "/app/v1/auth/confirm",
-            "/swagger-ui**",
-            "/v3/api-docs**"
+            "/swagger-ui/**",
+                "/swagger-ui.html",
+            "/v3/api-docs/**"
         );
         // passo la lista al jwtAuthFilter
         jwtAuthFilter.setPublicEndpoints(publicEndpoints);
